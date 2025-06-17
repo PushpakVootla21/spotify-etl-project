@@ -109,6 +109,23 @@ To provide your AWS Lambda function with external Python packages (such as `spot
 
 That’s it! Your Lambda function will now have access to the required packages.
 
+## Generating Spotify API Credentials
+
+To access Spotify data programmatically, you need Spotify API credentials (`client_id` and `client_secret`).  
+Follow these steps to generate them:
+
+1. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
+2. Log in with your Spotify account.
+3. Click on "Create an App".
+4. Enter an app name and description, then click "Create".
+5. On your app page, you will find your **Client ID** and **Client Secret**.
+6. Use these credentials as environment variables in your Lambda function or local environment:
+   - `client_id`
+   - `client_secret`
+
+**Note:**  
+Keep your credentials secure and do not share them publicly or commit them to version control.
+
 ## Setup
 
 1. **Install dependencies:**
