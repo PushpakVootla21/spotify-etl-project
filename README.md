@@ -47,6 +47,29 @@ This project leverages several AWS services to build a scalable, serverless ETL 
 
 ---
 
+## S3 Bucket Structure
+
+All data for this project is stored in a single S3 bucket:  
+**Bucket name:** `spotify-etl-prj-py`
+
+The bucket contains the following folders:
+
+- **raw_data/**
+  - **to_processed/**  
+    Stores raw data files after ingestion, ready to be transformed.
+  - **processed/**  
+    Stores raw data files after transformation is complete.
+
+- **transformed_data/**
+  - **album_data/**  
+    Contains CSV files with album information.
+  - **artist_data/**  
+    Contains CSV files with artist information.
+  - **songs_data/**  
+    Contains CSV files with song information.
+
+This structure helps organize the ETL workflow and makes it easy to manage and locate files at each stage of the pipeline.
+
 ## Project Structure
 
 - [`ingestion.py`](ingestion.py): Extracts playlist data from Spotify and uploads raw JSON to S3.
@@ -79,7 +102,7 @@ Both packages must be available to your AWS Lambda functions. If deploying on AW
 
 To provide your AWS Lambda function with external Python packages (such as `spotipy` and `pandas`):
 
-1. Download or create a ZIP file containing the required packages from `packages` directory for spotify & for pandas we can import in aws layers itself.
+1. Download or create a ZIP file containing the required packages (e.g., `spotipy`) from the `packages` directory. For `pandas`, you can use AWS's provided public layer or include it in your ZIP.
 2. Go to the AWS Lambda Console → Layers.
 3. Click "Create layer" and upload your ZIP file.
 4. Attach the created layer to your Lambda function.
@@ -90,7 +113,7 @@ That’s it! Your Lambda function will now have access to the required packages.
 
 1. **Install dependencies:**
    ```sh
-   pip install spotify boto3 pandas
+   pip install spotipy boto3 pandas
    ```
 
 2. **Set environment variables:**
