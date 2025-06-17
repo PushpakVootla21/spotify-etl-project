@@ -21,35 +21,60 @@ This project automates the extraction, transformation, and loading (ETL) of Spot
 
 ---
 
-## AWS Services Creation
+## AWS Services Creation and Configuration
 
-This project leverages several AWS services to build a scalable, serverless ETL pipeline:
+To implement the ETL pipeline as described in the architecture, follow these steps to create and configure the required AWS services:
 
-- **Amazon S3:**  
-  - Create an S3 bucket (e.g., `spotify-etl-prj-py`) for storing all Spotify data.
-  - Within this bucket, use the following folder structure:
-    - `raw_data/to_processed/` — for raw data files after ingestion, ready to be transformed.
-    - `raw_data/processed/` — for raw data files after transformation is complete.
-    - `transformed_data/album_data/` — for album CSV data.
-    - `transformed_data/artist_data/` — for artist CSV data.
-    - `transformed_data/songs_data/` — for song CSV data.
+### 1. Amazon S3
+- **Create a bucket:**  
+  Name: `spotify-etl-prj-py`
+- **Folder structure:**  
+  - `raw_data/to_processed/` — for raw data after ingestion  
+  - `raw_data/processed/` — for raw data after transformation  
+  - `transformed_data/album_data/` — for album CSVs  
+  - `transformed_data/artist_data/` — for artist CSVs  
+  - `transformed_data/songs_data/` — for song CSVs
 
-- **AWS Lambda:**  
-  - Create two Lambda functions:
-    - **Data Extraction Lambda:** Fetches data from the Spotify API and writes raw JSON to S3.
-    - **Data Transformation Lambda:** Triggered by S3 object creation, processes raw data, and writes CSVs to S3.
-  - Assign IAM roles with permissions for S3 access and CloudWatch logging.
+### 2. AWS Lambda
+- **Ingestion Lambda Function:**  
+  - **Purpose:** Extracts playlist data from the Spotify API and stores it as raw JSON in S3.
+  - **Trigger:**  
+    - **Amazon CloudWatch Event Rule (EventBridge):** Set up a scheduled rule (e.g., daily) to automatically invoke the ingestion Lambda.
+  - **Configuration:**  
+    - Environment variables: `client_id`, `client_secret` (Spotify API credentials)
+    - IAM Role: Permissions to write to S3 (`raw_data/to_processed/`)
+- **Transformation Lambda Function:**  
+  - **Purpose:** Processes raw JSON files from S3, transforms them into structured CSVs, and uploads them to the appropriate S3 folders.
+  - **Trigger:**  
+    - **S3 Event Notification:** Configure the S3 bucket (`raw_data/to_processed/`) to trigger the transformation Lambda when a new file is created.
+  - **Configuration:**  
+    - Attach a Lambda Layer with required Python packages (`spotipy`, `pandas`)
+    - IAM Role: Permissions to read from and write to the relevant S3 folders
 
-- **Amazon CloudWatch:**  
-  - Set up a CloudWatch Event Rule (EventBridge) to trigger the extraction Lambda on a schedule (e.g., daily).
+### 3. Amazon CloudWatch
+- **Create a scheduled rule** to trigger the Ingestion Lambda at your desired frequency (e.g., daily).
 
-- **AWS Glue:**  
-  - Create a Glue Crawler to scan the transformed data in S3 and infer the schema.
-  - The crawler updates the AWS Glue Data Catalog for easy querying.
+### 4. AWS Glue
+- **Create a Glue Crawler:**  
+  - Source: `transformed_data/` folders in your S3 bucket
+  - Target: AWS Glue Data Catalog
+  - Purpose: Infer schema for Athena queries
 
-- **Amazon Athena:**  
-  - Use Athena to run SQL queries on the transformed data cataloged by Glue.
+### 5. Amazon Athena
+- **Configure Athena** to use the Glue Data Catalog as its data source.
+- **Query your transformed data** using standard SQL.
 
+---
+
+**IAM Permissions:**  
+Ensure all Lambda functions have the necessary IAM roles to access S3, CloudWatch, and Glue as needed.
+
+**Environment Variables:**  
+Store sensitive data like Spotify API credentials as Lambda environment variables, not in code.
+
+---
+
+This setup ensures your ETL pipeline is automated, event-driven, and ready for analytics as per the architecture diagram.
 ---
 
 ## S3 Bucket Structure
