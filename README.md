@@ -204,3 +204,39 @@ python transformation.py
   - S3: `transformed_data/artist_data/`
 
 ---
+
+## Example Analysis Questions
+
+Once your Spotify data is processed and available in Amazon Athena, you can explore insights such as:
+
+- **Top Artists:**  
+  Who are the most featured artists in the playlist(s)?
+
+- **Popular Songs:**  
+  Which songs have the highest popularity scores?
+
+- **Album Trends:**  
+  Which albums have the most tracks in the playlist(s)?
+
+- **Release Date Analysis:**  
+  What is the distribution of song release years in the playlist(s)?
+
+- **Playlist Freshness:**  
+  How many songs were added to the playlist in the last month, quarter, or year?
+
+- **Artist Diversity:**  
+  How many unique artists are represented in the playlist(s)?
+
+- **Song Duration:**  
+  What is the average, shortest, and longest song duration?
+
+- **Popularity by Artist:**  
+  Which artists have the highest average song popularity?
+
+- **Recent Releases:**  
+  Which songs in the playlist(s) were released in the last year?
+
+- **Most Added Albums:**  
+  Which albums have the most songs added to the playlist(s) recently?
+
+You can use SQL queries in Athena to answer these questions using your `songs_data`, `album_data`, and `artist_data` tables.
