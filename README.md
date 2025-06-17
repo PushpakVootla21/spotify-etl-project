@@ -128,15 +128,10 @@ Keep your credentials secure and do not share them publicly or commit them to ve
 
 ## Setup
 
-1. **Install dependencies:**
-   ```sh
-   pip install spotipy boto3 pandas
-   ```
-
-2. **Set environment variables:**
+1. **Set environment variables:**
    - `client_id` and `client_secret` for Spotify API.
 
-3. **Configure AWS credentials:**
+2. **Configure AWS credentials:**
    - Use AWS CLI (`aws configure`) or environment variables.
 
 ---
