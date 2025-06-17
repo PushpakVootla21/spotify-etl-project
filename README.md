@@ -96,7 +96,7 @@ This project relies on the following key Python packages:
 - **pandas:**  
   Pandas is a powerful data analysis and manipulation library for Python. In this project, it is used to transform raw Spotify data into structured tabular formats (CSV files) for further analysis and storage.
 
-Both packages must be available to your AWS Lambda functions. If deploying on AWS Lambda, ensure these dependencies are included in a Lambda Layer and attached to your function, as described in the [Lambda Layers for External Python Modules](#lambda-layers-for-external-python-modules) section.
+Both packages must be available to your AWS Lambda functions. If deploying on AWS Lambda, ensure these dependencies are included in a Lambda Layer and attached to your function.
 
 ## Using Lambda Layers for External Python Packages
 
