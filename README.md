@@ -26,8 +26,13 @@ This project automates the extraction, transformation, and loading (ETL) of Spot
 This project leverages several AWS services to build a scalable, serverless ETL pipeline:
 
 - **Amazon S3:**  
-  - Create S3 buckets for storing raw and transformed Spotify data.
-  - Example paths: `raw_data/to_processed/` and `transformed_data/`.
+  - Create an S3 bucket (e.g., `spotify-etl-prj-py`) for storing all Spotify data.
+  - Within this bucket, use the following folder structure:
+    - `raw_data/to_processed/` — for raw data files after ingestion, ready to be transformed.
+    - `raw_data/processed/` — for raw data files after transformation is complete.
+    - `transformed_data/album_data/` — for album CSV data.
+    - `transformed_data/artist_data/` — for artist CSV data.
+    - `transformed_data/songs_data/` — for song CSV data.
 
 - **AWS Lambda:**  
   - Create two Lambda functions:
